@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=11">
+	<title>Advanced Screenshots</title>
+	<style>
+		body {
+			background: none ! important;
+		}
+
+		.mainBox {
+			display: none;
+			position: fixed;
+			width: 100vw;
+			height: 100vh;
+			top: 0px;
+			left: 0px;
+		}
+
+		.screenshot {
+			position: fixed;
+			top: 0px;
+			left: 0px;
+			width: 100vw;
+			height: 100vh;
+			z-index: -1;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="mainBox">
+		<div class="images"></div>
+	</div>
+</body>
+<script src="nui://game/ui/jquery.js"></script>
+<script type="text/javascript">
+	// Callback entry point
+	var entrypoint = "https://advanced-screenshots/callback";
+
+	// Listen ESC key
+	$("body").bind("keydown", function (e) {
+		var event = e || window.event;
+		var code = event.keyCode || event.which || event.charCode;
+		if (code == 190 || code == 27) {
+			$.post(entrypoint, JSON.stringify({
+				action: 'hideNui'
+			}));
+		}
+	});
+
+	// Listen message event
+	window.addEventListener("message", function (event) {
+		var message = event.data;
+		switch (message.action) {
+			case "setPageStatus":
+				if (message.data.status) {
+					$(".mainBox").fadeIn();
+				} else {
+					$(".mainBox").fadeOut();
+				}
+				break;
+			case "addScreenshot":
+				$(".images").append('<img class="screenshot" src="' + message.data.data + '" style="opacity:' + message.data.opacity + '" />');
+				break;
+			case "hideNui":
+				$.post(entrypoint, JSON.stringify({
+					action: 'setPageStatus',
+					data: {
+						status: false
+					}
+				}));
+				$(".mainBox").fadeOut();
+				$(".images").html("");
+				break;
+		}
+	});
+</script>
+
+</html>
