@@ -14,13 +14,16 @@ FiveM advanced screenshots script
 5. Restart your server
 
 ## FAQ
-**How to take screenshots?**
+> **How to take screenshots?**
+
 You can press the screenshot key (default key is `F10`) in game to take motion blur screenshots.
 
-**How to set the samples and shutter speed?**
+> **How to set the samples and shutter speed?**
+
 Press `Ctrl + F10` (or other key you set) to open the GUI menu.
 
-**The motion blur looks not good, why?**
+> **The motion blur looks not good, why?**
+
 Try smaller shutter speed and more samples in setting, then drive slowly.
 
 ## Video
