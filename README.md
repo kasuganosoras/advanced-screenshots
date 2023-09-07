@@ -32,7 +32,7 @@ Try smaller shutter speed and more samples in setting, then drive slowly.
 ## License (abridged)
 AdvancedScreenshots - Screenshots script for FiveM
 
-Copyright (C) 2022 Akkariin
+Copyright (C) 2023 Akkariin
 
 This program Is free software: you can redistribute it And/Or modify it under the terms Of the GNU General Public License As published by the Free Software Foundation, either version 3 Of the License, Or (at your option) any later version.
 
