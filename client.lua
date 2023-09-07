@@ -1,6 +1,6 @@
 _g = {}
 _g.TimeScaleList = {1, 2, 3, 5, 7, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100}
-_g.SamplesList = {}
+_g.SamplesList = {5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000}
 _g.TimeScale = 1
 _g.Samples = 1
 
@@ -33,15 +33,25 @@ Citizen.CreateThread(function()
             end) then SendNotification("Config Saved") end
             WarMenu.Display()
         end
-        if IsControlJustPressed(0, Config.Key) and not IsControlPressed(0, 36) then
-            SetTimeScale(Config.TimeScale / 100)
-            for i = 0, Config.Samples do
+        if IsControlJustPressed(0, Config.Key) and not IsControlPressed(0, 36) and IsUsingKeyboard(0) then
+            SetTimeScale(_g.TimeScaleList[_g.TimeScale] / 100)
+            SetThisScriptCanBePaused(false)
+            local dataList = {}
+            for i = 0, _g.SamplesList[_g.Samples] do
+                SetGamePaused(true)
                 data = TakeScreenshot()
-                AddScreenshots(data, 1.0 - (i / Config.Samples))
+                SetGamePaused(false)
+                table.insert(dataList, data)
+                Wait(_g.TimeScaleList[_g.TimeScale])
+                print(string.format("Finished: %d/%d", i, _g.SamplesList[_g.Samples]))
+            end
+            for i = 1, #dataList do
+                AddScreenshots(dataList[i], 1.0 - ((i - 1) / _g.SamplesList[_g.Samples]))
+                Wait(0)
             end
             SetTimeScale(1.0)
             SetPageStatus(true)
-        elseif IsControlJustPressed(0, Config.Key) and IsControlPressed(0, 36) then
+        elseif IsControlJustPressed(0, Config.Key) and IsControlPressed(0, 36) and IsUsingKeyboard(0) then
             WarMenu.OpenMenu('advanced-screenshots')
         end
     end
